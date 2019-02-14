@@ -1,7 +1,7 @@
 # LoRaWanRelay
 LoRaWanRelay is an open source LoRaWan battery powered repeater that integrate both the source code of the relay itself but also the source code of the end device.
 
-With the proposal implementation the relay is abble to support up to 16 nodes during 5 years with a battery of 3AH.
+With the proposal implementation the relay is able to support up to 16 nodes during 5 years with a battery of 3AH.
 
 The sensor embeds a full loRaWan Stack class A and a specific wake up sequences to communicate with the Relay.
 
