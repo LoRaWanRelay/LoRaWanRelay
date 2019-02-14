@@ -1,17 +1,17 @@
 # LoRaWanRelay
-LoRaWanRelay is an open source LoRaWan battery powered repeater that integrate both the source code of the relay itself but also the source code of the end device.
+LoRaWanRelay is an open source LoRaWAN battery powered repeater that integrate both the source code of the relay itself but also the source code of the end device.
 
 With the proposal implementation the relay is able to support up to 16 nodes during 5 years with a battery of 3AH.
 
-The sensor embeds a full loRaWan Stack class A and a specific wake up sequences to communicate with the Relay.
+The sensor embeds a full loRaWAN Stack class A and a specific wake up sequences to communicate with the relay.
 
-This sensor can be catch both by a LoRaWAN Gateway and also by the Relay.
+This sensor can be catch both by a LoRaWAN Gateway and also by the relay.
 
-LoRaWanRelay is based on a mechanism of synchronization between the Relay and the End Device to reduce the power consumption on both Side.
+LoRaWanRelay is based on a mechanism of synchronization between the Relay and the End Device to reduce the power consumption on both side.
 
 Frequency diversity is also implemented to be robust in case of interference.
 
-Security features with Mic Identification are implemented between End Device and the Relay.
+Security features with Mic Identification are implemented between End Device and the relay.
 
 # Relay software stack
 The main file of the  relay fw project is available here  :
