@@ -18,11 +18,12 @@ Maintainer        : Mathieu Verdi - Fabien Holin  (SEMTECH)
 #include "PointToPointBase.h"
 #include "RadioPlaner.h"
 #include "sx1276.h"
- 
+template < class R >  
 class PointToPointTransmitter
 {
 public:
-  explicit PointToPointTransmitter(RadioPLaner<SX1276> *radio_planner, const uint8_t hook_id_in);
+   PointToPointTransmitter(RadioPLaner<R> *radio_planner, const uint8_t hook_id_in);
+  
   ~PointToPointTransmitter();
 
   uint32_t Start(uint8_t *data_payload, const uint8_t data_payload_length);
@@ -40,7 +41,7 @@ protected:
   void GetNextSendSlotTimeAndChannel(const uint32_t actual_time, const int16_t delay_rx, const uint32_t last_ack_success_time, uint16_t *wake_up_sequence_length, uint32_t *next_send_slot, uint8_t *channel_index);
 
 private:
-  RadioPLaner<SX1276> *radio_planner;
+  RadioPLaner<R> *radio_planner;
   uint8_t hook_id;
   State_t state;
   uint32_t SendWakeUpCount;

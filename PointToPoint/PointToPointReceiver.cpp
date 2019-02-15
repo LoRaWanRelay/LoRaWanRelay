@@ -20,9 +20,14 @@ Maintainer        : Mathieu Verdi - Fabien Holin  (SEMTECH)
 #define CAD_DURATION_MS 1
 #define ACK_LENGTH 2
 
-
-
-PointToPointReceiver::PointToPointReceiver(RadioPLaner<SX1276>* radio_planner,
+#include "sx1272.h"
+#include "sx1276.h"
+#include "SX126x.h"
+template class PointToPointReceiver<SX1276>;
+template class PointToPointReceiver<SX1272>;
+template class PointToPointReceiver<SX126x>;
+template < class R >  
+PointToPointReceiver<R>::PointToPointReceiver(RadioPLaner<R>* radio_planner,
                                           const uint8_t hook_id)
   : radio_planner(radio_planner)
   , hook_id(hook_id)
@@ -132,18 +137,21 @@ PointToPointReceiver::PointToPointReceiver(RadioPLaner<SX1276>* radio_planner,
   tx_ack_relay_task.TaskType              = TX_LORA;
   
   RxBufferAppLength                       = 0;
-}
+};
 
-PointToPointReceiver::~PointToPointReceiver() {}
 
-void PointToPointReceiver::Start( void ) {
+
+template < class R >  
+PointToPointReceiver<R>::~PointToPointReceiver() {}
+template < class R >  
+void PointToPointReceiver<R>::Start( void ) {
   this->cad_success = false;
   this->state = STATE_WAIT_CAD_COMPLETION;
   this->last_cad_ms = mcu.RtcGetTimeMs();
   this->ConfigureAndEnqueueNextCad();
 }
-
-void PointToPointReceiver::ExecuteStateMachine() {
+template < class R >  
+void PointToPointReceiver<R>::ExecuteStateMachine() {
   switch (this->state) {
     case STATE_INIT: {
       break;
@@ -234,9 +242,8 @@ void PointToPointReceiver::ExecuteStateMachine() {
     }
   }
 }
-
-void
-PointToPointReceiver::Callback(void* self)
+template < class R >  
+void PointToPointReceiver<R>::Callback(void* self)
 {
   PointToPointReceiver* me = reinterpret_cast<PointToPointReceiver*>(self);
   // DEBUG_PRINTF("  --> State = %i\n", me->state);
@@ -289,10 +296,8 @@ PointToPointReceiver::Callback(void* self)
   }
   me->ExecuteStateMachine();
 }
-
-uint32_t
-PointToPointReceiver::GetNextCadStartMs(const uint32_t lastCadMs)
-{
+template < class R >  
+uint32_t PointToPointReceiver<R>::GetNextCadStartMs(const uint32_t lastCadMs) {
   uint32_t delay_ms = 10;
   uint32_t actual_ms = mcu.RtcGetTimeMs() + delay_ms;
   uint32_t next_cad_start_ms = ((uint32_t)(lastCadMs / CAD_BEAT_MS)) * CAD_BEAT_MS; // Warning: overflow
@@ -301,17 +306,13 @@ PointToPointReceiver::GetNextCadStartMs(const uint32_t lastCadMs)
   }
   return next_cad_start_ms;
 }
-
-uint32_t
-PointToPointReceiver::GetNextFreqency(const uint32_t nextCadMs)
-{
+template < class R >  
+uint32_t PointToPointReceiver<R>::GetNextFreqency(const uint32_t nextCadMs) {
   uint8_t frequency_index = ((nextCadMs) / CAD_BEAT_MS) % 2;
   return this->FrequencyList[frequency_index];
 }
-
-void
-PointToPointReceiver::ConfigureAndEnqueueNextCad()
-{
+template < class R >  
+void PointToPointReceiver<R>::ConfigureAndEnqueueNextCad() {
   cad_task_param.Bw = BW125;
   cad_task_param.Sf = 7;
   cad_task_param.CodingRate = CR_4_5;
@@ -331,18 +332,10 @@ PointToPointReceiver::ConfigureAndEnqueueNextCad()
   this->channel = this->GetNextFreqency(this->next_cad_ms);
   this->cad_task.StartTime = this->next_cad_ms;
   this->cad_task_param.Frequency = this->channel;
-  this->radio_planner->EnqueueTask(this->cad_task, NULL, NULL,
-                                   this->cad_task_param);
-  //  DEBUG_PRINTF("next_cad_ms: %i\n"
-  //               "channel: %d\n",
-  //               this->next_cad_ms, this->channel);
-  //DEBUG_MSG(".");
+  this->radio_planner->EnqueueTask(this->cad_task, NULL, NULL, this->cad_task_param);
 }
-
-int32_t
-PointToPointReceiver::GetDelayIndicatorMs(
-  const uint32_t lastCadMs, const uint32_t expectedEndLastWakeUpFragment)
-{
+template < class R >  
+int32_t PointToPointReceiver<R>::GetDelayIndicatorMs(const uint32_t lastCadMs, const uint32_t expectedEndLastWakeUpFragment) {
   static uint32_t correction_end_packet_middle_preamble_ms = 51;
   int32_t WakeUpSequenceDelay = expectedEndLastWakeUpFragment - lastCadMs -
                                 correction_end_packet_middle_preamble_ms;
@@ -351,8 +344,8 @@ PointToPointReceiver::GetDelayIndicatorMs(
   }
   return WakeUpSequenceDelay;
 }
-
-eStatusPtP PointToPointReceiver::DecodeWakeUpSequence ( ) {
+template < class R >  
+eStatusPtP PointToPointReceiver<R>::DecodeWakeUpSequence ( ) {
     // compute mic + insert check @tbd
     DEBUG_MSGRP ("Decode Wake up sequence\n");
     eStatusPtP status = OK_PTP ;
@@ -443,8 +436,8 @@ DEBUG_PRINTFRP ( "sf = %d , freq = %d\n",rx_data_task_param.Sf,rx_data_task_para
 return (status);                         
 };
 
-
-void PointToPointReceiver::GetRxPayload ( uint8_t * RxPayload, uint8_t * PayloadLength, uint32_t *RxTime, uint8_t * DevaddrOut, uint8_t * DevLengthOut , uint32_t *FreqOut ) {
+template < class R >  
+void PointToPointReceiver<R>::GetRxPayload ( uint8_t * RxPayload, uint8_t * PayloadLength, uint32_t *RxTime, uint8_t * DevaddrOut, uint8_t * DevLengthOut , uint32_t *FreqOut ) {
     *PayloadLength = RxBufferAppLength;
     *RxTime        = RxBufferAppTime + ( MAC_RX3_DELAY * 1000 );
     if ( RxBufferAppLength > 0 ) {

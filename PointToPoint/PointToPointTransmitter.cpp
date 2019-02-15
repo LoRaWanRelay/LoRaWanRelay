@@ -17,7 +17,14 @@ Maintainer        : Mathieu Verdi - Fabien Holin  (SEMTECH)
 #include "UserDefine.h"
 #include "PointToPointTransmitter.h"
 #include "LoRaMacCrypto.h"
-PointToPointTransmitter::PointToPointTransmitter(RadioPLaner<SX1276> *radio_planner,  uint8_t hook_id_in) : radio_planner(radio_planner){
+#include "sx1272.h"
+#include "sx1276.h"
+#include "SX126x.h"
+template class PointToPointTransmitter<SX1276>;
+template class PointToPointTransmitter<SX1272>;
+template class PointToPointTransmitter<SX126x>;
+template <class R> 
+PointToPointTransmitter<R>::PointToPointTransmitter(RadioPLaner<R> *radio_planner,  uint8_t hook_id_in) : radio_planner(radio_planner){
     state                 = STATE_INIT;
     count_ack_rx_attempt  = 0;
     count_ack_rx_success  = 0; 
@@ -100,10 +107,10 @@ PointToPointTransmitter::PointToPointTransmitter(RadioPLaner<SX1276> *radio_plan
     Channel_Dr                   = 0;
     CadTime                      = 0;
     memset ( DevEUI, 0xFF , 8);
-}
+};
 
-PointToPointTransmitter::~PointToPointTransmitter() {}
-void PointToPointTransmitter::SetChannelDr ( uint32_t Channel, uint8_t DataRate ) { 
+template <class R>  PointToPointTransmitter<R>::~PointToPointTransmitter() {}
+template <class R>  void PointToPointTransmitter<R>::SetChannelDr ( uint32_t Channel, uint8_t DataRate ) { 
    // DEBUG_PRINTF ( "channel = %d dr = %d\n",Channel,DataRate);
     switch  (Channel ) {
         case 868100000 :
@@ -136,7 +143,8 @@ void PointToPointTransmitter::SetChannelDr ( uint32_t Channel, uint8_t DataRate 
             break;
     }
 } ; 
-uint32_t  PointToPointTransmitter::Start(uint8_t *data_payload, const uint8_t data_payload_length)
+template <class R> 
+uint32_t  PointToPointTransmitter<R>::Start(uint8_t *data_payload, const uint8_t data_payload_length)
 {
     if (state != STATE_INIT)
     {
@@ -183,8 +191,8 @@ uint32_t  PointToPointTransmitter::Start(uint8_t *data_payload, const uint8_t da
     count_wus_tx_attempt++;
     return (NextSendSlot + wakeup_fragment_task.TaskDuration + 3 );
 }
-
-void PointToPointTransmitter::ExecuteStateMachine (void ) {
+template <class R> 
+void PointToPointTransmitter<R>::ExecuteStateMachine (void ) {
     eHookStatus hookStatus ;
     DEBUG_PRINTFRP ( "state =  %d\n",this->state);
     switch (this->state) {
@@ -232,8 +240,8 @@ void PointToPointTransmitter::ExecuteStateMachine (void ) {
         break;
     }
 }
-
-void PointToPointTransmitter::Abort() {
+template <class R> 
+void PointToPointTransmitter<R>::Abort() {
     this->state                        = STATE_INIT;
     this->last_ack_success_received_ms = 0;
     this->WakeUpSequenceLength         = MAX_PREAMBLE_PTP;
@@ -244,16 +252,16 @@ void PointToPointTransmitter::Abort() {
     this->TxDone                       = false;
     this->rxSuccess                    = false;
 }
-
-void PointToPointTransmitter::GetStatistics(StatisticCounters_t *counters){
+template <class R> 
+void PointToPointTransmitter<R>::GetStatistics(StatisticCounters_t *counters){
     counters->ack_rx_attempt = this->count_ack_rx_attempt;
     counters->ack_rx_success = this->count_ack_rx_success;
     counters->wuf_tx_attempt = this->count_wuf_tx_attempt;
     counters->wus_tx_attempt = this->count_wus_tx_attempt;
     counters->data_tx_attempt = this->count_data_tx_attempt;
 }
-
-void PointToPointTransmitter::Callback(void *self)
+template <class R> 
+void PointToPointTransmitter<R>::Callback(void *self)
 {
     PointToPointTransmitter *me = reinterpret_cast<PointToPointTransmitter *>(self);
     DEBUG_PRINTFRP("  --> State = %i\n", me->state);
@@ -295,8 +303,8 @@ void PointToPointTransmitter::Callback(void *self)
     me->ExecuteStateMachine();
 }
 
-
-void PointToPointTransmitter::GetNextSendSlotTimeAndChannel(const uint32_t actual_time, const int16_t delay_rx, const uint32_t last_ack_success_time, uint16_t *wake_up_sequence_length, uint32_t *next_send_slot, uint8_t *channel_index)
+template <class R> 
+void PointToPointTransmitter<R>::GetNextSendSlotTimeAndChannel(const uint32_t actual_time, const int16_t delay_rx, const uint32_t last_ack_success_time, uint16_t *wake_up_sequence_length, uint32_t *next_send_slot, uint8_t *channel_index)
 {
     uint32_t t_cad_rx = this->CadTime ;
     DEBUG_PRINTF("last time = %d \n tcad rx = %d \n Delay reported = : %d , preambule length = %d \n",*next_send_slot, t_cad_rx,delay_rx,*wake_up_sequence_length);
@@ -315,8 +323,8 @@ void PointToPointTransmitter::GetNextSendSlotTimeAndChannel(const uint32_t actua
     *wake_up_sequence_length = next_wake_up_sequence_length;
     *channel_index = channel_index_temp;
 }
-
-void PointToPointTransmitter::PrepareNextWakeUpFragment(WakeUpFragments_t *fragment, const uint8_t fragment_index)
+template <class R> 
+void PointToPointTransmitter<R>::PrepareNextWakeUpFragment(WakeUpFragments_t *fragment, const uint8_t fragment_index)
 {
     if ( DevAddr != 0xFFFFFFFF) {
         Ftype = WUS_WITH_DEVADDR; 
@@ -346,8 +354,8 @@ void PointToPointTransmitter::PrepareNextWakeUpFragment(WakeUpFragments_t *fragm
         fragment->buffer[10] = DevEUI[7];
     }
 }
-
-void PointToPointTransmitter::ComputeNextWakeUpLength(uint16_t *nextWakeUpLength, const uint32_t actual_time, const uint32_t last_ack_success_time)
+template <class R> 
+void PointToPointTransmitter<R>::ComputeNextWakeUpLength(uint16_t *nextWakeUpLength, const uint32_t actual_time, const uint32_t last_ack_success_time)
 {
     if ( NbMissedAck >= MISSED_ACK_BEFORE_LONG_PREAMBLE ) {
         *nextWakeUpLength = MAX_WUS_DURATION_MS;
@@ -356,18 +364,20 @@ void PointToPointTransmitter::ComputeNextWakeUpLength(uint16_t *nextWakeUpLength
       *nextWakeUpLength = ( WAKE_UP_FRAGMENT_DURATION_MS + MIN_PREAMBULE_DURATION_MS ) + TimmingErrorMs + 16;
     }
 }
- void PointToPointTransmitter::SetDevAddr ( uint8_t* addr, uint8_t Length) {
+template <class R> 
+ void PointToPointTransmitter<R>::SetDevAddr ( uint8_t* addr, uint8_t Length) {
     if (Length == 8) {
         for (int i = 0 ; i < Length ; i++) {
             DevEUI[i] =  addr [i];
         }
     }
 }
- void PointToPointTransmitter::SetDevAddr ( uint32_t addr){
+template <class R> 
+ void PointToPointTransmitter<R>::SetDevAddr ( uint32_t addr){
     DevAddr = addr;
 }
-
-void PointToPointTransmitter::ClearDevEui(void) {
+template <class R> 
+void PointToPointTransmitter<R>::ClearDevEui(void) {
     for (int i = 0 ; i < 8 ; i++) {
             DevEUI[i] =  0xFF;
         }

@@ -24,9 +24,9 @@ Maintainer        : Fabien Holin (SEMTECH)
 #define DEBUG_TRACERP      0
 
 #ifdef RELAY
-    #define DEBUG_TRACE        0     // Set to 1 to activate debug traces
+    #define DEBUG_TRACE        1     // Set to 1 to activate debug traces
 #else
-    #define DEBUG_TRACE        0
+    #define DEBUG_TRACE        1
 #endif
 #define LOW_POWER_MODE     1    // Set to 1 to activate sleep mode , set to 0 to replace by wait functions (easier in debug mode) 
 #define DEBUG_TRACE_ENABLE 0  // Set to 1 to activate DebugTrace 
@@ -121,7 +121,7 @@ Maintainer        : Fabien Holin (SEMTECH)
 #define USER_DR_DISTRIBUTION_PARAMETERS 0x0001000  
 #else
 #define USER_NUMBER_OF_RETRANSMISSION   1
-#define USER_DR_DISTRIBUTION_PARAMETERS 0x0010000  // Only used in case of user defined darate distribution strategy refered to doc that explain this value
+#define USER_DR_DISTRIBUTION_PARAMETERS 0x1010000  // Only used in case of user defined darate distribution strategy refered to doc that explain this value
 #endif 
 
 #endif

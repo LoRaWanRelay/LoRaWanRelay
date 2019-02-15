@@ -66,22 +66,28 @@ mcu.InitMcu();
     #define FW_VERSION     0x18
     SX126x  RadioUser( LORA_BUSY, LORA_CS, LORA_RESET,TX_RX_IT );
     RadioPLaner < SX126x > RP( &RadioUser );
-    LoraWanObject<LoraRegionsEU,SX126x> Lp ( LoraWanKeys,&RP,USERFLASHADRESS); 
+    LoraWanObject<LoraRegionsEU,SX126x> Lp ( LoraWanKeys,&RP,USERFLASHADRESS);
+    PointToPointReceiver    ptpRx<SX126X>(&RP, POINT_TO_POINT_RX_HOOK_ID);
+    PointToPointReceiver<SX126X>    ptpRx(&RP, POINT_TO_POINT_RX_HOOK_ID);
+    PointToPointTransmitter<SX126X> ptpTx(&RP, POINT_TO_POINT_TX_HOOK_ID); 
 #endif
 #ifdef SX1276_BOARD
     SX1276  RadioUser( LORA_CS, LORA_RESET, TX_RX_IT, RX_TIMEOUT_IT);
     RadioPLaner < SX1276 > RP( &RadioUser );
-    LoraWanObject<LoraRegionsEU,SX1276> Lp ( LoraWanKeys,&RP,USERFLASHADRESS); 
+    LoraWanObject<LoraRegionsEU,SX1276> Lp ( LoraWanKeys,&RP,USERFLASHADRESS);
+    PointToPointReceiver<SX1276>    ptpRx(&RP, POINT_TO_POINT_RX_HOOK_ID);
+    PointToPointTransmitter<SX1276> ptpTx(&RP, POINT_TO_POINT_TX_HOOK_ID); 
 #endif
 #ifdef SX1272_BOARD
     #define FW_VERSION     0x13
     SX1272  RadioUser( LORA_CS, LORA_RESET, TX_RX_IT, RX_TIMEOUT_IT);
     RadioPLaner < SX1272 > RP( &RadioUser );
-    LoraWanObject<LoraRegionsEU,SX1272> Lp ( LoraWanKeys,&RP,USERFLASHADRESS); 
+    LoraWanObject<LoraRegionsEU,SX1272> Lp ( LoraWanKeys,&RP,USERFLASHADRESS);
+    PointToPointReceiver<SX1272>    ptpRx(&RP, POINT_TO_POINT_RX_HOOK_ID);
+    PointToPointTransmitter<SX1272> ptpTx(&RP, POINT_TO_POINT_TX_HOOK_ID);  
 #endif
 
-PointToPointReceiver    ptpRx(&RP, POINT_TO_POINT_RX_HOOK_ID);
-PointToPointTransmitter ptpTx(&RP, POINT_TO_POINT_TX_HOOK_ID);
+
 
 /* Create 4 Threads fom highest to lowest priority,
     Thread 0 : Tx (on RX3) from the relay to Sensor in case of downlink , use on Relay device
@@ -91,8 +97,8 @@ PointToPointTransmitter ptpTx(&RP, POINT_TO_POINT_TX_HOOK_ID);
 */
 RP.InitHook ( TX_ON_RX3_ID             , &CallBackTxOnRx3                     , reinterpret_cast <void * > (&RP) );
 RP.InitHook ( LP_HOOK_ID               , &(Lp.packet.Phy.CallbackIsrRadio)    , &(Lp.packet.Phy)                 );
-RP.InitHook ( POINT_TO_POINT_TX_HOOK_ID, &(PointToPointTransmitter::Callback ), reinterpret_cast<void*>(&ptpTx)  );
-RP.InitHook ( POINT_TO_POINT_RX_HOOK_ID, &(PointToPointReceiver::Callback )   , reinterpret_cast<void*>(&ptpRx)  );
+RP.InitHook ( POINT_TO_POINT_TX_HOOK_ID, &(ptpTx.Callback ), reinterpret_cast<void*>(&ptpTx)  );
+RP.InitHook ( POINT_TO_POINT_RX_HOOK_ID, &(ptpRx.Callback )   , reinterpret_cast<void*>(&ptpRx)  );
 
 
 RadioUser.Reset();

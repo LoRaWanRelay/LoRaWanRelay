@@ -375,6 +375,17 @@ public :
 /******************************************************************************/
     void UartInit ( void ) ;
     void MMprint( const char *fmt, ...);
+
+/******************************************************************************/
+/*                           Mcu I2C Api Not Implemented                      */
+/******************************************************************************/
+ void I2cInit(void);
+    void I2cDeInit(void){};
+    HAL_StatusTypeDef I2cTransmit (uint16_t DevAddress, uint8_t *pData, uint16_t Size ) {HAL_StatusTypeDef tmp ; return (tmp);};
+    HAL_StatusTypeDef I2cReceive  (uint16_t DevAddress, uint8_t *pData, uint16_t Size ) {HAL_StatusTypeDef tmp ; return (tmp);};
+    HAL_StatusTypeDef I2cReadMem  (uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize, uint8_t *pData, uint16_t Size, uint32_t Timeout){HAL_StatusTypeDef tmp ; return (tmp);};
+    HAL_StatusTypeDef I2cWriteMem (uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize, uint8_t *pData, uint16_t Size, uint32_t Timeout){HAL_StatusTypeDef tmp ; return (tmp);};
+     
 /*****************************************************************************/
 /*                                    Get Unique Id                          */
 /*****************************************************************************/

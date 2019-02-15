@@ -314,10 +314,13 @@ void SX1272::SetPayload (uint8_t *payload, uint8_t payloadSize) {
 }
 
 
+
+
 void SX1272::StartCad(uint32_t channel, uint8_t SF, eBandWidth BW)
 {
+    DEBUG_MSG("start cad\n");
 //   // CalibrateImage( );
-    SetOpMode(RF_OPMODE_SLEEP);
+   // SetOpMode(RF_OPMODE_SLEEP);
 //   /* Set Lora Mode and max payload to 0x40 */
 //   Write(REG_OPMODE, (Read(REG_OPMODE) & RFLR_OPMODE_LONGRANGEMODE_MASK) |
 //                         RFLR_OPMODE_LONGRANGEMODE_ON);
@@ -326,21 +329,39 @@ void SX1272::StartCad(uint32_t channel, uint8_t SF, eBandWidth BW)
     // Write(REG_OPMODE, RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_SLEEP);
     // while(Read(REG_OPMODE) != (RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_SLEEP)){}
 
-    Write(REG_OPMODE, RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_STANDBY);
-    while(Read(REG_OPMODE) != (RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_STANDBY)){
+  //  Write(REG_OPMODE, RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_STANDBY);
+  //  while(Read(REG_OPMODE) != (RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_STANDBY)){
+  //  }
+
+    #ifdef RADIO_WITH_TCX0
+        mcu.SetValueDigitalOutPin ( RADIO_TCX0_POWER , 1 );
+    #endif
+    #ifdef RADIO_ANT_SWITCH_TX_RF0
+        mcu.SetValueDigitalOutPin(RADIO_ANT_SWITCH_TX_RF0,0);
+    #endif
+    #ifdef RADIO_ANT_SWITCH_RX
+        mcu.SetValueDigitalOutPin(RADIO_ANT_SWITCH_RX,1);
+    #endif
+    Write( REG_OPMODE, RFLR_OPMODE_LONGRANGEMODE_ON | RFLR_OPMODE_ACCESSSHAREDREG_DISABLE | RFLR_OPMODE_LONGRANGEMODE_ON | RF_OPMODE_SLEEP );
+    while ( Read(REG_OPMODE) != (RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_SLEEP) ) {
+        Write( REG_OPMODE, RFLR_OPMODE_LONGRANGEMODE_ON | RFLR_OPMODE_ACCESSSHAREDREG_DISABLE | RFLR_OPMODE_LONGRANGEMODE_ON | RF_OPMODE_SLEEP );
     }
-    
-  SetRfFrequency(channel);
-  SetModulationParamsCad(SF, BW);
+    Write(REG_OPMODE, RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_STANDBY);
+    while ( Read(REG_OPMODE) != (RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_STANDBY)) {
+        Write(REG_OPMODE, RFLR_OPMODE_LONGRANGEMODE_ON + RFLR_OPMODE_STANDBY);
+    }  
+    SetRfFrequency(channel);
+    SetModulationParamsCad(SF, BW);
 
   /* Configure IRQ CAD Done and CAD Detected */
-  Write(REG_LR_IRQFLAGSMASK, 0xFA);
-  Write(REG_LR_IRQFLAGS, 0xFF);
-  Write(REG_DIOMAPPING1, 0x80);
-  Write(REG_DIOMAPPING2, 0x00);
+    Write(REG_LR_IRQFLAGSMASK, 0xFA);
+    Write(REG_LR_IRQFLAGS, 0xFF);
+    Write(REG_DIOMAPPING1, 0x80);
+    Write(REG_DIOMAPPING2, 0x00);
   /* CAD */
-  mcu.SetValueDigitalOutPin ( DEBUGRX ,1 ) ;
-  SetOpMode(RFLR_OPMODE_CAD);
+    mcu.SetValueDigitalOutPin ( DEBUGRX ,1 ) ;
+    DEBUG_MSG("start cad\n");
+    SetOpMode(RFLR_OPMODE_CAD);
 }
 
 void SX1272::Sleep(  bool coldStart ) {

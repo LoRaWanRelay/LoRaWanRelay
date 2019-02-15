@@ -21,12 +21,13 @@ Maintainer        : Mathieu Verdi - Fabien Holin  (SEMTECH)
 #include "sx1276.h"
 
 #define MAX_RX_BUFFER_LENGTH 255
-
+template < class R >  
 class PointToPointReceiver
 {
 public:
-  explicit PointToPointReceiver(RadioPLaner<SX1276>* radio_planner,
+  explicit PointToPointReceiver(RadioPLaner<R>* radio_planner,
                                 const uint8_t hook_id);
+                                
   ~PointToPointReceiver();
 
   void Start(void);
@@ -45,7 +46,7 @@ protected:
   const uint32_t lastCadMs, const uint32_t expectedEndLastWakeUpFragment);
 
 private:
-  RadioPLaner<SX1276>* radio_planner;
+  RadioPLaner<R>* radio_planner;
   const uint8_t hook_id;
 
   typedef enum
