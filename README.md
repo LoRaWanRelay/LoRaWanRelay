@@ -20,7 +20,7 @@ By default the Makefile is configured in Relay Mode for running over a STMicroel
 ![](http://lorae.ddns.net/Images/murataborad.jpg)
 
 To compile the source code , you have to install the free gcc-arm-none-eabi package (working both on linux and windows : [https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)).
-
+ 
 ## Build source code : ` make clean all `
 The Binary file is available in the repository /build/MiniMouse.bin 
 # Sensor software stack
