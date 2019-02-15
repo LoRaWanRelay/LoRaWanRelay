@@ -76,5 +76,41 @@ The Node Red source code embeds a dashboard , to access it open in your navigato
  
 You should have this kind of dashboard 
 ![Relay Manager UI ](http://lorae.ddns.net/Images/nodered2.png)
+This User Interface provides a Forwared List / Not Yet Forwarded list of devices seen by the Relay.
+
+The user can choose to enable/disable the  forwarding for each devices already provisioned (devAddr List) or still in join mode (DevEui List) .
+
+The User Interface provides also the Tx/RX/CPU power consumption updated when a  status frame  is received.
+
+# Configuration of the Network Server Backend
+In this project use the TTN bakcend as network server
+### Relay Provisioning  :
+Nothing special to do , by default in the source code the relay is in OTA mode, the LoRaWAN keys have to be modify  in the source code in the MainRelay File : 
+```cpp int mainRelay( void ) {
+
+uint8_t LoRaMacNwkSKeyInit[]      = { 0x22, 0x33, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11};
+uint8_t LoRaMacAppSKeyInit[]      = { 0x11, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22};
+uint8_t LoRaMacAppKeyInit[]       = { 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0xBB};
+uint8_t AppEuiInit[]              = { 0x70, 0xb3, 0xd5, 0x7e, 0xd0, 0x00, 0xff, 0x50 };
+uint8_t DevEuiInit2[]             = { 0x38, 0x35, 0x31, 0x31, 0x18, 0x47, 0x37, 0x51 };
+int i;
+uint8_t UserRxFport ; 
+
+#ifdef RELAY
+    uint32_t LoRaDevAddrInit   = 0x260114FC;
+    uint8_t DevEuiInit[]       = { 0x38, 0x35, 0x31, 0x31, 0x18, 0x47, 0x37, 0x57 };    
+    sLoRaWanKeys  LoraWanKeys  = { LoRaMacNwkSKeyInit, LoRaMacAppSKeyInit, LoRaMacAppKeyInit, AppEuiInit, DevEuiInit, LoRaDevAddrInit,OTA_DEVICE };
+#else
+    uint8_t UserFport = 3 ;
+    uint32_t LoRaDevAddrInit   = 0x26011695;
+    sLoRaWanKeys  LoraWanKeys  = { LoRaMacNwkSKeyInit, LoRaMacAppSKeyInit, LoRaMacAppKeyInit, AppEuiInit, DevEuiInit2, LoRaDevAddrInit,APB_DEVICE };
+#endif ```
+
+### Sensor Provisioning : 
+Nothing special to do , the sensor can be either in OTA mode or in ABP mode
+Gateway Provioning : 
+
+Running the system/
+How can we verify that everything is running, where to find the sensor’s data ? , …
 
 
