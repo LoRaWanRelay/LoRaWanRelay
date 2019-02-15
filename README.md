@@ -55,8 +55,26 @@ The project will also implement a very simple Relay manager running on a Node re
 For this purpose, the Relay manager behaves as a LoRa gateway (we call it the relay virtual gateway).
 From the NS stand point, this new uplink comes directly from the sensor and has been received through a single LoRa gateway, which happens to be our virtual gateway. The data structure coming from that gateway has all the fields normally expected from one of the regular LoRA gateways of the network. The Relay is therefore transparent for the NS and does not require any modification of the Ns.
 The Node Red Manages Only one Relay, it is just an example of implementation but it is not scalable.
-The NodeRed source code is available in the same GitHub repository on the directory /NodeRedSrc
-Copy It and use Import Clipboard in NodeRed  to create your own node red relay manager.
+
+The NodeRed source code is available on the directory /NodeRedSrc
+
+Just Copy It and use Import Clipboard in NodeRed  to create your own node red relay manager.
 ![Relay Manager Node Red Flow](http://lorae.ddns.net/Images/noderedcrop.png)
+
+### Node Red Dependencies : 
+
+-	Install node-red-dashboard to enable the user interface integrated in the node red source code 
+[https://www.npmjs.com/package/node-red-dashboard](https://www.npmjs.com/package/node-red-dashboard)
+-	Install the TTN node red node :
+[https://www.thethingsnetwork.org/docs/applications/nodered/](https://www.thethingsnetwork.org/docs/applications/nodered/)
+
+### Configure the following boxes : 
+-	In the Box VirtualGW set your virtual gateway Id, you have to provision a virtual gateway with the same Id in your  TTN Console : var gw_id = [0xaa,0x55,0x5a,0x00,0x11,0x11,0x11,0x11];
+-	In the Box ParseDev_id set the Device Id  of your relay as declared in your TTN console (in the example Device Id = relay).
+The Node Red source code embeds a dashboard , to access it open in your navigator the url :
+ Your_Node-red_Url:1880/ui/ 
+ 
+You should have this kind of dashboard 
+![Relay Manager UI ](http://lorae.ddns.net/Images/nodered2.png)
 
 
