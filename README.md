@@ -17,7 +17,7 @@ Security features with Mic Identification are implemented between End Device and
 The main file of the  relay fw project is available here  :
 [https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp](https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp)                                                  
 By default the Makefile is configured in Relay Mode for running over a STMicroelectronics Discovery Kit CMWX1ZZABZ.
-![](http://lorae.ddns.net/Images/R1345557-01.jpg)
+![](http://lorae.ddns.net/Images/murataborad.jpg)
 
 To compile the source code , you have to install the free gcc-arm-none-eabi package (working both on linux and windows : [https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)).
 
