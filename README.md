@@ -104,11 +104,15 @@ uint8_t UserRxFport ;
     uint8_t UserFport = 3 ;
     uint32_t LoRaDevAddrInit   = 0x26011695;
     sLoRaWanKeys  LoraWanKeys  = { LoRaMacNwkSKeyInit, LoRaMacAppSKeyInit, LoRaMacAppKeyInit, AppEuiInit, DevEuiInit2, LoRaDevAddrInit,APB_DEVICE };
-#endif ```
+#endif 
+```
 
 ### Sensor Provisioning : 
-Nothing special to do , the sensor can be either in OTA mode or in ABP mode
-Gateway Provioning : 
+Provision the sensor as usual on the TTN Backend , can be either in OTA mode or in ABP mode. 
+For demo purpose, disable Frame counter checks   (as on the figure below), like this you will see in your console the packets receive twice : first time by the LoRaWAN GATEWAY as Usual and a second time by the "Virtual Gateway" 
+![Sensor Provisionning](http://lorae.ddns.net/Images/ttnsensor.png)
+
+### Gateway Provioning : 
 
 Running the system/
 How can we verify that everything is running, where to find the sensor’s data ? , …
