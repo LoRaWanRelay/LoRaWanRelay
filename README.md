@@ -112,9 +112,14 @@ Provision the sensor as usual on the TTN Backend , can be either in OTA mode or 
 For demo purpose, disable Frame counter checks   (as on the figure below), like this you will see in your console the packets receive twice : first time by the LoRaWAN GATEWAY as Usual and a second time by the "Virtual Gateway" 
 ![Sensor Provisionning](http://lorae.ddns.net/Images/ttnsensor.png)
 
-### Gateway Provioning : 
+### Gateway Provisionning : 
+Configure a new gateway on ttn dashboard with the same DevEUI as one inside your NodeRed dashboard , enable the option :
 
-Running the system/
+'I'm using the legacy packet forwarder
+Select this if you are using the legacy Semtech packet forwarder.'
+
+
+# Running the system/
 How can we verify that everything is running, where to find the sensor’s data ? , …
 
 
