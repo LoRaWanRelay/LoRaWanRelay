@@ -27,7 +27,7 @@ The Binary file is available in the repository /build/MiniMouse.bin
 The main file of the Sensor code is also available at  :
 [https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp](https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp) .
 The Code has been devlopp for a HW platform who demonstrate some sensor named BezLoc but you can also run this code on the Discovery kit just by changing an option in the make file as described below.
-![BeLoc Board](http://lorae.ddns.net/Images/bezloc.jpg)
+![BeLoc Board](http://lorae.ddns.net/Images/bezlocV.jpg)
 To switch from relay code to sensor code you have to select a compilation option in the Makefile (set variable `RELAY to 0`).
 
 To Compile source code : ` make clean all `
