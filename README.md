@@ -115,11 +115,25 @@ For demo purpose, disable Frame counter checks   (as on the figure below), like 
 ### Gateway Provisionning : 
 Configure a new gateway on ttn dashboard with the same DevEUI as one inside your NodeRed dashboard , enable the option :
 
-'I'm using the legacy packet forwarder
-Select this if you are using the legacy Semtech packet forwarder.'
+` I'm using the legacy packet forwarder
+Select this if you are using the legacy Semtech packet forwarder.`
 
 
-# Running the system/
-How can we verify that everything is running, where to find the sensor’s data ? , …
+# Running the system 
+How can we verify that everything is running?
+### On TTN Console
+* You can verify that the sensor in receive both by the Normal Gateway but also by the virtual gateway.
+To proceed in your TTN console, the uplink receive twice will appear with the mention retry :
+![Uplink received by the virtual Gw](http://lorae.ddns.net/Images/packet.jpg)
+* Downlink check : the sensor is configured to retransmit all the applicative downlink in it next uplink. So each time the sensor will received a downlink , the next uplink inside the ttn console should be a copy of the downlink.
+### On Node Red UI 
+* When a new node is starting for the first time, it will appear in the node red UI console as the mention Enable Forwarding
+That men that the relay have seen the sensor but it not relay the packets of this sensor.
+If you enable the forwarding , the sensor become white listed and the packet start to be relayed.
+### Observing the power consumption
+The power consumtion give you lots of informations :
+The following picture describe the different state of a relay devices :
+![Power State of the relay Gw](http://lorae.ddns.net/Images/power.jpg)
+
 
 
