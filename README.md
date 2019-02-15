@@ -21,16 +21,19 @@ By default the Makefile is configured in Relay Mode for running over a STMicroel
 
 To compile the source code , you have to install the free gcc-arm-none-eabi package (working both on linux and windows : [https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)).
  
-## Build source code : ` make clean all `
+## Build source code :
+` make clean all `
 The Binary file is available in the repository /build/MiniMouse.bin 
 # Sensor software stack
 The main file of the Sensor code is also available at  :
 [https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp](https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp) .
 The Code has been devlopp for a HW platform who demonstrate some sensor named BezLoc but you can also run this code on the Discovery kit just by changing an option in the make file as described below.
 ![BeLoc Board](http://lorae.ddns.net/Images/bezlocV.jpg)
-To switch from relay code to sensor code you have to select a compilation option in the Makefile (set variable `RELAY to 0`).
+To switch from relay code to sensor code you have to select a compilation option in the Makefile :
+set variable `RELAY to 0`.
 
-To Compile source code : ` make clean all `
+## Build source code :
+` make clean all `
 
 The Binary file is available in the repository /build/MiniMouse.bin 
 
