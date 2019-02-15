@@ -128,8 +128,9 @@ To proceed in your TTN console, the uplink receive twice will appear with the me
 * Downlink check : the sensor is configured to retransmit all the applicative downlink in it next uplink. So each time the sensor will received a downlink , the next uplink inside the ttn console should be a copy of the downlink.
 ### On Node Red UI 
 * When a new node is starting for the first time, it will appear in the node red UI console as the mention Enable Forwarding
-That men that the relay have seen the sensor but it not relay the packets of this sensor.
+That mean that the relay have seen the sensor but it still not relay the packets of this sensor.
 If you enable the forwarding , the sensor become white listed and the packet start to be relayed.
+![Relay DashBoard for monitoring ](http://lorae.ddns.net/Images/dash.png)
 ### Observing the power consumption
 The power consumtion give you lots of informations :
 The following picture describe the different state of a relay devices :
