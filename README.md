@@ -132,8 +132,8 @@ That mean that the relay have seen the sensor but it still not relay the packets
 If you enable the forwarding , the sensor become white listed and the packet start to be relayed.
 ![Relay DashBoard for monitoring ](http://lorae.ddns.net/Images/dash.png)
 ### Observing the power consumption
-The power consumtion give you lots of informations :
-The following picture describe the different state of a relay devices :
+The power consumption give a lots of informations :
+The following picture describe the different statea of a relay device :
 ![Power State of the relay Gw](http://lorae.ddns.net/Images/power.jpg)
 
 
