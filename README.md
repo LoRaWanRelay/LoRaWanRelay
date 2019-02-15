@@ -21,18 +21,18 @@ By default the Makefile is configured in Relay Mode for running over a STMicroel
 
 To compile the source code , you have to install the free gcc-arm-none-eabi package (working both on linux and windows : [https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)).
  
-## Build source code :
+### Build source code :
 ` make clean all `
 The Binary file is available in the repository /build/MiniMouse.bin 
 # Sensor software stack
 The main file of the Sensor code is also available at  :
 [https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp](https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp) .
-The Code has been devlopp for a HW platform who demonstrate some sensor named BezLoc but you can also run this code on the Discovery kit just by changing an option in the make file as described below.
+The Code has been devlopp for a HW platform who demonstrate some sensor named BezLoc but you can also run this code on the Discovery kit just by changing an option in the Makefile as described below.
 ![BeLoc Board](http://lorae.ddns.net/Images/bezlocV.jpg)
 To switch from relay code to sensor code you have to select a compilation option in the Makefile :
 set variable `RELAY to 0`.
 
-## Build source code :
+### Build source code :
 ` make clean all `
 
 The Binary file is available in the repository /build/MiniMouse.bin 
@@ -49,5 +49,14 @@ The Binary file is available in the repository /build/MiniMouse.bin
 * `DEVICE_UNDER_TEST = 1` Set To One for Relay Demo
 * `RADIO_WITH_TCX0   = 1` Set To One if radio Board embeds a TCXO
 
+# NodeRed relay manager
+The project will also implement a very simple Relay manager running on a Node red Platform.
+![Relay Manager](http://lorae.ddns.net/Images/relaymanager.png)
+For this purpose, the Relay manager behaves as a LoRa gateway (we call it the relay virtual gateway).
+From the NS stand point, this new uplink comes directly from the sensor and has been received through a single LoRa gateway, which happens to be our virtual gateway. The data structure coming from that gateway has all the fields normally expected from one of the regular LoRA gateways of the network. The Relay is therefore transparent for the NS and does not require any modification of the Ns.
+The Node Red Manages Only one Relay, it is just an example of implementation but it is not scalable.
+The NodeRed source code is available in the same GitHub repository on the directory /NodeRedSrc
+Copy It and use Import Clipboard in NodeRed  to create your own node red relay manager.
+![Relay Manager Node Red Flow](http://lorae.ddns.net/Images/noderedcrop.png)
 
 
