@@ -496,7 +496,7 @@ void  RadioPLaner<R>::CallAbortedTask ( void ) {
 template <class R> 
 void  RadioPLaner<R>::LaunchCurrentTask ( void ) {
     uint8_t Id = RadioTaskId;
-    DEBUG_PRINTF ( " Launch Task ID %d and start Radio state = %d type = %d\n",Id, sTask[Id].State,sTask [ Id ].TaskType  );
+    DEBUG_PRINTFRP ( " Launch Task ID %d and start Radio state = %d type = %d\n",Id, sTask[Id].State,sTask [ Id ].TaskType  );
     //PrintTask  ( sTask [ Id ] ); 
     switch ( sTask [ Id ].TaskType ) {
         case TX_LORA :

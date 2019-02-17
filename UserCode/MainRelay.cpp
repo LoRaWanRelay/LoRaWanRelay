@@ -138,9 +138,9 @@ uint8_t UserPayloadClassA [ 250 ];
     memset( CurrentJoinDevEui , 0 ,8);
 
     Lp.Init ();
-    Lp.SetDataRateStrategy ( MOBILE_LOWPER_DR_DISTRIBUTION );
-    Lp.NewJoin();
-    //Lp.RestoreContext  ( ); // to ReStore lorawan context from flash  and so avoid rejoin
+    Lp.SetDataRateStrategy ( STATIC_ADR_MODE );
+   // Lp.NewJoin();
+    Lp.RestoreContext  ( ); // to ReStore lorawan context from flash  and so avoid rejoin
     /* white List 2 devices one in OTA one in APB */
     relay.AddDevaddrInWhiteList    ( 0x26011695 ); 
     relay.AddDevEuiInJoinWhiteList ( DevEuiInit2 );   
@@ -267,6 +267,7 @@ uint8_t UserPayloadClassA [ 250 ];
             SendDevaddrStatus = true  ;
             SendDevEuiStatus  = false  ;
         }
+        DEBUG_PRINTF ( "cpt = %d\n",cpt);
         mcu.GotoSleepMSecond ( 2000 );
     }
 /* The following code is specific to the Sensor Device*/    

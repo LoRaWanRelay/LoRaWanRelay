@@ -24,11 +24,11 @@ Maintainer        : Fabien Holin (SEMTECH)
 #define DEBUG_TRACERP      0
 
 #ifdef RELAY
-    #define DEBUG_TRACE        1     // Set to 1 to activate debug traces
+    #define DEBUG_TRACE        0     // Set to 1 to activate debug traces
 #else
-    #define DEBUG_TRACE        1
+    #define DEBUG_TRACE        0
 #endif
-#define LOW_POWER_MODE     1    // Set to 1 to activate sleep mode , set to 0 to replace by wait functions (easier in debug mode) 
+#define LOW_POWER_MODE     0    // Set to 1 to activate sleep mode , set to 0 to replace by wait functions (easier in debug mode) 
 #define DEBUG_TRACE_ENABLE 0  // Set to 1 to activate DebugTrace 
 #define LOW_SPEED_CLK    LSE    
 

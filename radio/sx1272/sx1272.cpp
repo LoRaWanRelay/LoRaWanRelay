@@ -318,7 +318,7 @@ void SX1272::SetPayload (uint8_t *payload, uint8_t payloadSize) {
 
 void SX1272::StartCad(uint32_t channel, uint8_t SF, eBandWidth BW)
 {
-    DEBUG_MSG("start cad\n");
+
 //   // CalibrateImage( );
    // SetOpMode(RF_OPMODE_SLEEP);
 //   /* Set Lora Mode and max payload to 0x40 */
@@ -360,7 +360,6 @@ void SX1272::StartCad(uint32_t channel, uint8_t SF, eBandWidth BW)
     Write(REG_DIOMAPPING2, 0x00);
   /* CAD */
     mcu.SetValueDigitalOutPin ( DEBUGRX ,1 ) ;
-    DEBUG_MSG("start cad\n");
     SetOpMode(RFLR_OPMODE_CAD);
 }
 

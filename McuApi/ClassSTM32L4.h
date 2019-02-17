@@ -277,6 +277,7 @@ public :
     * \param [OUT]  void       
     */
     void     GotoSleepMSecond   ( int delay );
+    void     WakeUpAfterDeepSleep ( void );
     
 /******************************************************************************/
 /*                             Mcu WatchDog Api                               */

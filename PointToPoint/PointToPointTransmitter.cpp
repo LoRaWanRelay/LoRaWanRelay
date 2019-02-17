@@ -202,6 +202,7 @@ void PointToPointTransmitter<R>::ExecuteStateMachine (void ) {
     case STATE_SEND_WAKEUP_SEQUENCE_FRAGMENT:
         DEBUG_MSGRP("Send data \n");
         data_send_task.StartTime = mcu.RtcGetTimeMs() + 16 ;  // +20 to be sure that collide with TX from lorawan dedicated to relay implementation not point to point 
+        this->state = STATE_WAIT_RELAY_ACK;
         hookStatus = radio_planner->EnqueueTask(data_send_task, data_payload, &data_payload_length, data_send_task_param);
         count_data_tx_attempt++;
         if (hookStatus == HOOK_ID_ERROR) {
@@ -209,14 +210,14 @@ void PointToPointTransmitter<R>::ExecuteStateMachine (void ) {
             this->Abort();
             break;
         }
-        this->state = STATE_WAIT_RELAY_ACK;
         break;
     case STATE_WAIT_RELAY_ACK:
         ack_relay_rx_task.StartTime = mcu.RtcGetTimeMs() + 3;
-        this->radio_planner->EnqueueTask(ack_relay_rx_task, this->rx_buffer, &this->ack_length, ack_relay_rx_task_param);
         this->rxSuccess = false;
         count_ack_rx_attempt++;
         state = ACK_RECEIVED;
+        this->radio_planner->EnqueueTask(ack_relay_rx_task, this->rx_buffer, &this->ack_length, ack_relay_rx_task_param);
+        
         break;
 
     case ACK_RECEIVED:
@@ -299,6 +300,7 @@ void PointToPointTransmitter<R>::Callback(void *self)
     }
     default:
         DEBUG_MSG("Forgot break?\n");
+     
     }
     me->ExecuteStateMachine();
 }
@@ -307,7 +309,7 @@ template <class R>
 void PointToPointTransmitter<R>::GetNextSendSlotTimeAndChannel(const uint32_t actual_time, const int16_t delay_rx, const uint32_t last_ack_success_time, uint16_t *wake_up_sequence_length, uint32_t *next_send_slot, uint8_t *channel_index)
 {
     uint32_t t_cad_rx = this->CadTime ;
-    DEBUG_PRINTF("last time = %d \n tcad rx = %d \n Delay reported = : %d , preambule length = %d \n",*next_send_slot, t_cad_rx,delay_rx,*wake_up_sequence_length);
+    //DEBUG_PRINTF("last time = %d \n tcad rx = %d \n Delay reported = : %d , preambule length = %d \n",*next_send_slot, t_cad_rx,delay_rx,*wake_up_sequence_length);
     // Search next send opportunity
     uint16_t next_wake_up_sequence_length;
     ComputeNextWakeUpLength(&next_wake_up_sequence_length, actual_time, last_ack_success_time);

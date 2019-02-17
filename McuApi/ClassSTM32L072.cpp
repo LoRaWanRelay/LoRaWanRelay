@@ -795,10 +795,7 @@ void sleepAndWakeUp (void) {
     HAL_SPI_DeInit (&hspi1);
     HAL_UART_DeInit (&huart2);
      mcu.I2cDeInit ();
-   
-   // mcu.SetValueDigitalOutPin ( PB_14, 0 );
     HAL_PWR_EnterSTOPMode ( PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFI );
-  //  mcu.WakeUpAfterDeepSleep ();
 }
 void McuSTM32L072::WakeUpAfterDeepSleep (void) {
   RCC_OscInitTypeDef RCC_OscInitStruct;

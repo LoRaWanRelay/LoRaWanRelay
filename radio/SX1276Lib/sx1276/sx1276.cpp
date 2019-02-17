@@ -364,7 +364,6 @@ void SX1276::StartCad(uint32_t channel, uint8_t SF, eBandWidth BW)
     const uint8_t sf_value  = GetSfValue(SF);
     const uint8_t bw_value  = GetBwValue(BW);
     uint8_t LowDatarateOptimize;
-     
     //mcu.waitUnderIt (1000);
     const uint8_t implicit_header_value = RFLR_MODEMCONFIG1_IMPLICITHEADER_ON ;
    
@@ -418,7 +417,7 @@ void SX1276::StartCad(uint32_t channel, uint8_t SF, eBandWidth BW)
   Write(REG_DIOMAPPING1, 0x80);
   Write(REG_DIOMAPPING2, 0x00);
   /* CAD */
-  //DEBUG_MSG ("start cad\n");
+
   mcu.SetValueDigitalOutPin ( DEBUGRX ,1 ) ;
   SetOpMode(RFLR_OPMODE_CAD);
 }
