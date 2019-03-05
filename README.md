@@ -1,17 +1,19 @@
 # LoRaWanRelay
-LoRaWanRelay is an open source LoRaWAN battery powered repeater that integrate both the source code of the relay itself but also the source code of the end device.
+LoRaWanRelay is a pre-standard open source LoRaWAN battery powered repeater (or network extender) that integrates both the source code of the relay itself and also the source code of the end device (the sensor whose packets are to be relayed to the network by the relay). 
+The code implements to the best of our knwoledge the functionnalities discussed in the relay working group technical proposal. 
 
-With the proposal implementation the relay is able to support up to 16 nodes during 5 years with a battery of 3AH.
 
-The sensor embeds a full loRaWAN Stack class A and a specific wake up sequences to communicate with the relay.
+With the proposed implementation the relay should be able to support up to 16 nodes during 5 years with a battery of 3Ah.
 
-This sensor can be catch both by a LoRaWAN Gateway and also by the relay.
+The sensor side stack is essentially a fully compliant loRaWAN 1.0.3 classA Stack with an additionnal Relay specific wake up sequence. The wake-up sequence is transmitted before each LoRaWAN uplink to wake-up the relay. The LoRaWAN uplink is not modified. The sensor normally opens the RX1&RX2 receive slots following its uplink, additionnaly the sensor opens an RX3 slot which is relay mode specific.
 
-LoRaWanRelay is based on a mechanism of synchronization between the Relay and the End Device to reduce the power consumption on both side.
+The sensor uplinks can be received both by a standard LoRaWAN network Gateways and also by the relay. If the sensor devAddr is whitelisted in the relay, the relay then forwards the receievd sensor's frame to the network's gateways.
 
-Frequency diversity is also implemented to be robust in case of interference.
+LoRaWanRelay implements a synchronization mechanism between the Relay and the End Device to reduce the power consumption on both side.
 
-Security features with Mic Identification are implemented between End Device and the relay.
+Frequency diversity is also implemented to improove the interference robustness.
+
+The communication between the sensor and the relay is secured and authenticated (through a MIC field and a shared key).
 
 # Relay software stack
 The main file of the  relay fw project is available here  :
