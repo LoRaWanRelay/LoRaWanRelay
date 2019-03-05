@@ -47,7 +47,6 @@ void SystemClock_Config(void) {
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.HSICalibrationValue = 16;
     RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-    RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
     RCC_OscInitStruct.PLL.PLLM = 1;
@@ -1196,6 +1195,7 @@ void sleepAndWakeUp (void) {
 }
 
 void McuSTM32L4::WakeUpAfterDeepSleep (void) {
+#if LOW_POWER_MODE == 1
     RCC_OscInitTypeDef RCC_OscInitStruct;
     RCC_ClkInitTypeDef RCC_ClkInitStruct;
     RCC_PeriphCLKInitTypeDef PeriphClkInit;
@@ -1203,7 +1203,6 @@ void McuSTM32L4::WakeUpAfterDeepSleep (void) {
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.HSICalibrationValue = 16;
     RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-    RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
     RCC_OscInitStruct.PLL.PLLM = 1;
@@ -1237,6 +1236,7 @@ void McuSTM32L4::WakeUpAfterDeepSleep (void) {
     UartInit();
     InitSpi();
     PowerConsumption = RtcGetTimeMs ();
+#endif
 }
 void sleepAndWakeUpCool (void) {
   

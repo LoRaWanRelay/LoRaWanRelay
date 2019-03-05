@@ -123,7 +123,7 @@ int main ( ) {
         /*!
         * \brief Restore the LoraWan Context
         */
-        //Lp.RestoreContext  ( );
+        Lp.RestoreContext  ( );
         Lp.SetDataRateStrategy ( USER_DR_DISTRIBUTION );
         UserFport       = 3;
         UserPayloadSize = 14;

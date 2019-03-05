@@ -292,7 +292,7 @@ eLoraWan_Process_States LoraWanObject <T,RADIOTYPE> ::Join ( uint32_t TargetTime
     packet.Phy.JoinedStatus = NOT_JOINED;
     packet.MacNbTransCpt = packet.MacNbTrans = 1;
     packet.RegionSetDataRateDistribution( JOIN_DR_DISTRIBUTION ); 
-    //packet.RegionGiveNextDataRate ( );
+    packet.RegionGiveNextDataRate ( );
     packet.BuildJoinLoraFrame( );
     packet.MacRx2DataRate = packet.RX2DR_INIT;
     packet.MacRx1Delay = packet.JOIN_ACCEPT_DELAY1;

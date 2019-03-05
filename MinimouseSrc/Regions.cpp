@@ -284,12 +284,12 @@ template < class R >void LoraRegionsEU<R>::RegionSetDataRateDistribution( uint8_
         case JOIN_DR_DISTRIBUTION: //in this example 1/3 dr5 1/3 dr4 and 1/3 dr0
             DistriDataRateInit[7]    = 0; 
             DistriDataRateInit[6]    = 0;
-            DistriDataRateInit[5]    = 1; 
+            DistriDataRateInit[5]    = 0; 
             DistriDataRateInit[4]    = 0; 
-            DistriDataRateInit[3]    = 1;
+            DistriDataRateInit[3]    = 0;
             DistriDataRateInit[2]    = 0; 
             DistriDataRateInit[1]    = 0; 
-            DistriDataRateInit[0]    = 0; 
+            DistriDataRateInit[0]    = 1; 
             this->MacNbTrans         = 1;
             break;
         case USER_DR_DISTRIBUTION: //in this example 1/3 dr5 1/3 dr4 and 1/3 dr0
@@ -566,7 +566,7 @@ template < class R >void LoraRegionsEU<R>:: Rx2DataRateToSfBw ( uint8_t dataRate
         this->MacRx2SfCurrent = 7;
         this->MacRx2BwCurrent = BW250 ;}
     else if ( dataRate == 7 ) {
-         this->MacRx2ModulationTypeCurrent = FSK;
+        this->MacRx2ModulationTypeCurrent = FSK;
         //@note tbd manage fsk case }
     }
     else {

@@ -193,7 +193,7 @@ void SX126x::RxLoRaGeneric( uint8_t payloadSize , SRadioParam RadioParam) {;
     SetRfFrequency(  RadioParam.Frequency );
     SetModulationParamsLora( RadioParam.Sf,  RadioParam.Bw  );
     SetPacketParamsLora( 0, IqMode  );
-    StopTimerOnPreamble( false );
+    StopTimerOnPreamble( true );
     WriteRegisters( REG_LORA_SYNC_WORD_MSB,&LoraSyncword[0], 2 );
     // Configure IRQ
     SetDioIrqParams(

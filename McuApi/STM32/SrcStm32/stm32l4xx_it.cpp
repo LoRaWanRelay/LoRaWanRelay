@@ -201,7 +201,6 @@ void RTC_WKUP_IRQHandler(void)
 {
   /* USER CODE BEGIN RTC_WKUP_IRQn 0 */
     mcu.WakeUpAfterDeepSleep ();
-    CLEAR_BIT(SCB->SCR, SCB_SCR_SLEEPDEEP_Msk);
     HAL_RTCEx_WakeUpTimerIRQHandler(&hrtc);
 }
 
@@ -209,28 +208,29 @@ void RTC_WKUP_IRQHandler(void)
 void EXTI15_10_IRQHandler(void)
 {
     mcu.WakeUpAfterDeepSleep ();
-    CLEAR_BIT(SCB->SCR, SCB_SCR_SLEEPDEEP_Msk);
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_11);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
     mcu.ExtISR();
 }
 void EXTI3_IRQHandler(void)
 {
     mcu.WakeUpAfterDeepSleep ();
-    CLEAR_BIT(SCB->SCR, SCB_SCR_SLEEPDEEP_Msk);
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_3);
     mcu.ExtISR();
 }
 void EXTI4_IRQHandler(void)
 {
     mcu.WakeUpAfterDeepSleep ();
-    CLEAR_BIT(SCB->SCR, SCB_SCR_SLEEPDEEP_Msk);
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
     mcu.ExtISR();
 }
 
 void LPTIM1_IRQHandler(void)
 {   mcu.WakeUpAfterDeepSleep ();
-    CLEAR_BIT(SCB->SCR, SCB_SCR_SLEEPDEEP_Msk); 
     HAL_LPTIM_IRQHandler(&hlptim1);
     HAL_LPTIM_TimeOut_Stop(&hlptim1);
     mcu.timerISR();
