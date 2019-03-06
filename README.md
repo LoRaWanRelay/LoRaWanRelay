@@ -52,7 +52,7 @@ The Binary file is available in the repository /build/MiniMouse.bin
 * `RADIO_WITH_TCX0   = 1` Set To One if radio Board embeds a TCXO
 
 # NodeRed relay manager
-The project will also implement a very simple Relay manager running on a Node red Platform.
+The project also implements a very simple Relay manager running on a Node red Platform connecting to teh TTN network server.
 ![Relay Manager](http://lorae.ddns.net/Images/relaymanager.png)
 For this purpose, the Relay manager behaves as a LoRa gateway (we call it the relay virtual gateway).
 From the NS stand point, this new uplink comes directly from the sensor and has been received through a single LoRa gateway, which happens to be our virtual gateway. The data structure coming from that gateway has all the fields normally expected from one of the regular LoRA gateways of the network. The Relay is therefore transparent for the NS and does not require any modification of the Ns.
@@ -76,18 +76,18 @@ Just Copy It and use Import Clipboard in NodeRed  to create your own node red re
 The Node Red source code embeds a dashboard , to access it open in your navigator the url :
  Your_Node-red_Url:1880/ui/ 
  
-You should have this kind of dashboard 
+You should see the following dashboard 
 ![Relay Manager UI ](http://lorae.ddns.net/Images/nodered2.png)
-This User Interface provides a Forwared List / Not Yet Forwarded list of devices seen by the Relay.
+This User Interface provides a Forwared List / Not Yet Forwarded list of devices as seen by the Relay.
 
-The user can choose to enable/disable the  forwarding for each devices already provisioned (devAddr List) or still in join mode (DevEui List) .
+The user can choose to enable/disable the  forwarding for each devices already provisioned (devAddr List) or still attempting to join  (DevEui List) .
 
 The User Interface provides also the Tx/RX/CPU power consumption updated when a  status frame  is received.
 
 # Configuration of the Network Server Backend
-In this project use the TTN bakcend as network server
+This project uses the TTN backend as network server
 ### Relay Provisioning  :
-Nothing special to do , by default in the source code the relay is in OTA mode, the LoRaWAN keys have to be modify  in the source code in the MainRelay File : 
+Nothing special to do , by default in the source code the relay is in OTA mode, the LoRaWAN AppKey key has to be modified  in the source code in the MainRelay File : 
 ```cpp int mainRelay( void ) {
 
 uint8_t LoRaMacNwkSKeyInit[]      = { 0x22, 0x33, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11};
@@ -111,7 +111,7 @@ uint8_t UserRxFport ;
 
 ### Sensor Provisioning : 
 Provision the sensor as usual on the TTN Backend , can be either in OTA mode or in ABP mode. 
-For demo purpose, disable Frame counter checks   (as on the figure below), like this you will see in your console the packets receive twice : first time by the LoRaWAN GATEWAY as Usual and a second time by the "Virtual Gateway" 
+For demo purpose, disable Frame counter checks   (as on the figure below), this way you should see on your TTN data console the packets received twice : first time by the LoRaWAN GATEWAY as Usual and a second time by the "Virtual Gateway" (the relay) 
 ![Sensor Provisionning](http://lorae.ddns.net/Images/ttnsensor.png)
 
 ### Gateway Provisionning : 
@@ -122,20 +122,20 @@ Select this if you are using the legacy Semtech packet forwarder.`
 
 
 # Running the system 
-How can we verify that everything is running?
+How do you verify that everything is running?
 ### On TTN Console
-* You can verify that the sensor in receive both by the Normal Gateway but also by the virtual gateway.
-To proceed in your TTN console, the uplink receive twice will appear with the mention retry :
+* You can verify that the sensor is received both by the Normal Gateway but also by the virtual gateway.
+Go to the device's TTN console, the uplink should be received twice and appear with the mention retry :
 ![Uplink received by the virtual Gw](http://lorae.ddns.net/Images/packet.jpg)
 * Downlink check : the sensor is configured to retransmit all the applicative downlink in it next uplink. So each time the sensor will received a downlink , the next uplink inside the ttn console should be a copy of the downlink.
 ### On Node Red UI 
-* When a new node is starting for the first time, it will appear in the node red UI console as the mention Enable Forwarding
-That mean that the relay have seen the sensor but it still not relay the packets of this sensor.
-If you enable the forwarding , the sensor become white listed and the packet start to be relayed.
+* When a new node is starting for the first time, it will appear in the node red UI console with the mention 'Enable Forwarding'
+That means that the relay has seen the sensor but is still not relaying the packets of this sensor.
+If you enable forwarding , the sensor become white-listed and the packet start to be relayed.
 ![Relay DashBoard for monitoring ](http://lorae.ddns.net/Images/dash.png)
 ### Observing the power consumption
-The power consumption give a lots of informations :
-The following picture describe the different statea of a relay device :
+The relay power consumption provides a lots of informations :
+The following picture describes the different states of a relay device :
 ![Power State of the relay Gw](http://lorae.ddns.net/Images/power.jpg)
 
 
