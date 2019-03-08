@@ -15,6 +15,8 @@ Frequency diversity is also implemented to improove the interference robustness.
 
 The communication between the sensor and the relay is secured and authenticated (through a MIC field and a shared key).
 
+The pdf of the slides presented at the TTN conference in Amsterdam is included in the main directory. It is a good idea to go through those [slides](https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/LoRAWAN_relay_TTN_2019.pdf)
+
 # Relay software stack
 The main file of the  relay fw project is available here  :
 [https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp](https://github.com/LoRaWanRelay/LoRaWanRelay/blob/master/UserCode/MainRelay.cpp)                                                  
