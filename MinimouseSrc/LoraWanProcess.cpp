@@ -380,6 +380,7 @@ template <template <class R> class T, class RADIOTYPE>
 void LoraWanObject <T,RADIOTYPE> ::SetDataRateStrategy( eDataRateStrategy adrModeSelect ) {
     packet.AdrModeSelect = adrModeSelect;
     packet.RegionSetDataRateDistribution( adrModeSelect );
+    packet.RegionGiveNextDataRate ();
 };
 
 
