@@ -53,8 +53,6 @@ template < class R > LoraRegionsEU<R>::LoraRegionsEU ( sLoRaWanKeys LoRaWanKeys,
     this->MacRx2DataRate       = RX2DR_INIT;
     this->MacRx1Delay          = RECEIVE_DELAY1;
     this->MacTxDataRateAdr     = 0 ;
-    RegionGiveNextDataRate ();
-    memset(DistriDataRateInit,0,8);
 }
 
 /***********************************************************************************************/
